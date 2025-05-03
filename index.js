@@ -39,10 +39,18 @@ app.use("/ytnotes",emails);
 app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
 
-// Express middleware to handle COOP and COEP headers
 app.use((req, res, next) => {
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");  // Allows cross-origin interaction from the same origin
-    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");  // Ensures that the content is not blocked by cross-origin policies
+    const allowedOrigins = ["http://localhost:5173", "https://youtubenotemaker.vercel.app"];
+    const origin = req.headers.origin;
+  
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+  
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  
     next();
   });
   

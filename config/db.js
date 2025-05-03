@@ -1,10 +1,11 @@
 require('dotenv').config();
 const { Pool } = require("pg");
+require('dotenv').config();
+
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "postgresql://postgres:subham04@localhost:5432/youtube_notes_app",
-    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false, 
-    connectionTimeoutMillis: 10000,
+    connectionString: process.env.DATABASE_URL || "postgresql://postgres:iUUAGNwRyyctjiFulBXiAXZZWBoCZLqH@crossover.proxy.rlwy.net:32115/railway",
+    ssl: { rejectUnauthorized: false },
 });
 
 pool.connect()

@@ -59,6 +59,7 @@ router.post("/google", async (req, res) => {
          VALUES ($1, $2, $3, $4) RETURNING *`,
         [sub, email, name, authCode]
       );
+      console.log("New User Created:", newUser.rows[0]);
       return res.json({ user: newUser.rows[0] });
     }
 

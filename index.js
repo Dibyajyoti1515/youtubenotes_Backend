@@ -8,6 +8,12 @@ const app = express();
 app.use(express.urlencoded({extended: true}))
 require("./config/passport");
 
+app.use(cors({
+  origin: ["http://localhost:5173", "https://youtubenotemaker.vercel.app"], // your frontend URLs
+  credentials: true,
+}));
+
+
 
 const pool = require("./config/db");
 const loginrouts = require("./routes/login");

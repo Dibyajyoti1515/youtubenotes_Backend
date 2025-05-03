@@ -33,6 +33,13 @@ app.use("/ytnotes",emails);
 app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
 
+// Express middleware to handle COOP and COEP headers
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");  // Allows cross-origin interaction from the same origin
+    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");  // Ensures that the content is not blocked by cross-origin policies
+    next();
+  });
+  
 app.listen(port, () => {
     console.log(`Server started on ${port}`);
 });

@@ -6,6 +6,8 @@ const path = require("path")
 //app.use(methodOverride("_method"));
 const app = express();
 app.use(express.urlencoded({extended: true}))
+require("./config/passport");
+
 
 const pool = require("./config/db");
 const loginrouts = require("./routes/login");
@@ -14,6 +16,9 @@ const noterouts = require("./routes/notes");
 const deletnotes = require("./routes/deletnotes");
 const users = require("./routes/users");
 const emails = require("./routes/emails");
+const googleAuthRoutes = require("./routes/googleAuth");
+const googleLoginRoutes = require("./routes/googlelogin");
+
 
 const port = 8080;
 
@@ -25,6 +30,8 @@ app.use("/ytnotes", noterouts);
 app.use("/ytnotes",deletnotes);
 app.use("/ytnotes",users);
 app.use("/ytnotes",emails);
+app.use("/ytnotes", googleAuthRoutes);
+app.use("/ytnotes", googleLoginRoutes);
 
 app.listen(port, () => {
     console.log(`Server started on ${port}`);

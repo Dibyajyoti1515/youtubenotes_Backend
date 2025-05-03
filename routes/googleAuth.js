@@ -17,6 +17,8 @@
 
 // signin.js
 const express = require("express");
+const crypto = require("crypto");
+const { OAuth2Client } = require("google-auth-library");
 const axios = require("axios");
 const pool = require("../config/db");
 const passport = require("../config//passport");  // Import passport configuration
@@ -61,7 +63,6 @@ router.post("/google", async (req, res) => {
       return res.json({ user: newUser.rows[0] });
     }
 
-    // If the user exists, send the user information
     res.json({ user: userRes.rows[0] });
   } catch (error) {
     console.error("Token Verification Error:", error);

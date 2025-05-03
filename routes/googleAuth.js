@@ -36,22 +36,22 @@ router.post("/google", async (req, res) => {
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
     );
 
-    // Check if the token's audience matches the client ID
+    
     if (tokenInfo.data.aud !== process.env.GOOGLE_CLIENT_ID) {
       return res.status(400).json({ error: "Token audience mismatch" });
     }
 
-    // Extract user information from the token
+    console.log(tokenInfo);
     const { sub, name, email } = tokenInfo.data;
 
-    // Check if the user exists in the database
+    
     let userRes = await pool.query(
       "SELECT * FROM users WHERE google_id = $1 OR email = $2",
       [sub, email]
     );
 
     if (userRes.rows.length === 0) {
-      // If the user doesn't exist, create a new user in the database
+
       const authCode = crypto.randomBytes(16).toString("hex");
       const newUser = await pool.query(
         `INSERT INTO users (google_id, email, name, auth_code)

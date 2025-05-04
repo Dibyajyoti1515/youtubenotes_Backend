@@ -31,7 +31,6 @@ const cookieParser = require("cookie-parser");
 const port = 8080;
 
 app.use(cookieParser());
-app.use(cors());
 app.use(express.json());
 app.use("/ytnotes", loginrouts);
 app.use("/ytnotes", signinrouts);

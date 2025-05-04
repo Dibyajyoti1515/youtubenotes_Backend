@@ -68,7 +68,7 @@ router.post("/google", async (req, res) => {
       );
       console.log("New User Created:", newUser.rows[0]);
 
-      res
+      return res
         .cookie("auth_code", authCode, {
         httpOnly: true,
         secure: true,       // Only over HTTPS
@@ -78,7 +78,7 @@ router.post("/google", async (req, res) => {
         .json({ user: newUser.rows[0] });
     }
 
-      res
+      return res
         .cookie("auth_code", userRes.rows[0].auth_code, {
         httpOnly: true,
         secure: true,       // Only over HTTPS

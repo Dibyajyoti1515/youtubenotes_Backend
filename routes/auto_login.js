@@ -3,6 +3,7 @@ const pool = require("../config/db");
 const router = express.Router();
 router.get("/auto-login", async (req, res) => {
     const authCode = req.cookies.auth_code;
+    console.log(req.cookies);
     console.log("Auto-login auth code:", authCode);
   
     if (!authCode) return res.status(401).json({ error: "No auth code" });

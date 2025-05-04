@@ -34,6 +34,8 @@ const googleAuthRoutes = require("./routes/googleAuth");
 const googleLoginRoutes = require("./routes/googlelogin");
 const autoLoginRoutes = require("./routes/auto_login");
 const cookieParser = require("cookie-parser");
+const transcriptRoutes = require("./routes/transcript");
+
 
 
 const port = 8080;
@@ -49,6 +51,7 @@ app.use("/ytnotes",emails);
 app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
 app.use("/ytnotes", autoLoginRoutes);
+app.use("/ytnotes", transcriptRoutes);
 
 
 

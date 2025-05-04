@@ -22,7 +22,11 @@ const axios = require("axios");
 const pool = require("../config/db");
 const passport = require("../config//passport");  // Import passport configuration
 const router = express.Router();
+const cookieParser = require("cookie-parser");
 
+router.use(cookieParser());
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 // Route to handle Google Login
 router.post("/google", async (req, res) => {
   console.log("Google Login Request:", req.body);
@@ -60,10 +64,26 @@ router.post("/google", async (req, res) => {
         [sub, email, name, authCode, picture]
       );
       console.log("New User Created:", newUser.rows[0]);
-      return res.json({ user: newUser.rows[0] });
+
+      res
+        .cookie("auth_code", authCode, {
+        httpOnly: true,
+        secure: true,       // Only over HTTPS
+        sameSite: "Strict",
+        maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
+        })
+        .json({ user: newUser.rows[0] });
     }
 
-    res.json({ user: userRes.rows[0] });
+      res
+        .cookie("auth_code", authCode, {
+        httpOnly: true,
+        secure: true,       // Only over HTTPS
+        sameSite: "Strict",
+        maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
+        })
+        .json({ user: newUser.rows[0] });
+
   } catch (error) {
     console.error("Token Verification Error:", error);
     return res.status(500).json({ error: "Failed to verify token" });

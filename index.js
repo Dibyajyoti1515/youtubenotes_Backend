@@ -39,6 +39,24 @@ app.use("/ytnotes",emails);
 app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
 
+router.get("/auto-login", async (req, res) => {
+  const authCode = req.cookies.auth_code;
+
+  if (!authCode) return res.status(401).json({ error: "No auth code" });
+
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE auth_code = $1", [authCode]);
+    if (result.rows.length === 0) return res.status(401).json({ error: "Invalid auth code" });
+
+    res.json({ user: result.rows[0] });
+  } catch (err) {
+    console.error("Auto-login error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
 app.use((req, res, next) => {
     const allowedOrigins = ["http://localhost:5173", "https://youtubenotemaker.vercel.app"];
     const origin = req.headers.origin;

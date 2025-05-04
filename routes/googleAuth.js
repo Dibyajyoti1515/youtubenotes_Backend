@@ -83,7 +83,7 @@ router.post("/google", async (req, res) => {
         sameSite: "Strict",
         maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
         })
-        .json({ user: userRes.rows[0].auth_code });
+        .json({ user: userRes.rows[0] });
 
   } catch (error) {
     console.error("Token Verification Error:", error);

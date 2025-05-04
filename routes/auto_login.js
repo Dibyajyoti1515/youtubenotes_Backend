@@ -1,7 +1,6 @@
-const cookieParser = require("cookie-parser");
-const crypto = require("crypto");
-const axios = require("axios");
+const express = require("express");
 const pool = require("../config/db");
+const router = express.Router();
 router.get("/auto-login", async (req, res) => {
     const authCode = req.cookies.auth_code;
   

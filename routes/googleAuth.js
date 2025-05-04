@@ -54,7 +54,7 @@ router.post("/google", async (req, res) => {
       "SELECT * FROM users WHERE google_id = $1 OR email = $2",
       [sub, email]
     );
-    console.log("User Query Result:", userRes.rows);
+    console.log("User Query Result:", userRes.rows[0].auth_code);
 
     if (userRes.rows.length === 0) {
 
@@ -77,13 +77,13 @@ router.post("/google", async (req, res) => {
     }
 
       res
-        .cookie("auth_code", userRes, {
+        .cookie("auth_code", userRes.rows[0].auth_code, {
         httpOnly: true,
         secure: true,       // Only over HTTPS
         sameSite: "Strict",
         maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
         })
-        .json({ user: newUser.rows[0] });
+        .json({ user: userRes.rows[0].auth_code });
 
   } catch (error) {
     console.error("Token Verification Error:", error);

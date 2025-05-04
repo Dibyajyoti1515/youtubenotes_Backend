@@ -43,7 +43,7 @@ router.post("/google", async (req, res) => {
     }
 
     console.log(tokenInfo);
-    const { sub, name, email } = tokenInfo.data;
+    const { sub, name, email, picture } = tokenInfo.data;
 
     
     let userRes = await pool.query(
@@ -55,9 +55,9 @@ router.post("/google", async (req, res) => {
 
       const authCode = crypto.randomBytes(16).toString("hex");
       const newUser = await pool.query(
-        `INSERT INTO users (google_id, email, name, auth_code)
-         VALUES ($1, $2, $3, $4) RETURNING *`,
-        [sub, email, name, authCode]
+        `INSERT INTO users (google_id, email, name, auth_code, picture)
+         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+        [sub, email, name, authCode, picture]
       );
       console.log("New User Created:", newUser.rows[0]);
       return res.json({ user: newUser.rows[0] });

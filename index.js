@@ -24,10 +24,13 @@ const users = require("./routes/users");
 const emails = require("./routes/emails");
 const googleAuthRoutes = require("./routes/googleAuth");
 const googleLoginRoutes = require("./routes/googlelogin");
+const autoLoginRoutes = require("./routes/auto_login");
+const cookieParser = require("cookie-parser");
 
 
 const port = 8080;
 
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use("/ytnotes", loginrouts);
@@ -38,22 +41,8 @@ app.use("/ytnotes",users);
 app.use("/ytnotes",emails);
 app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
+app.use("/ytnotes", autoLoginRoutes);
 
-router.get("/auto-login", async (req, res) => {
-  const authCode = req.cookies.auth_code;
-
-  if (!authCode) return res.status(401).json({ error: "No auth code" });
-
-  try {
-    const result = await pool.query("SELECT * FROM users WHERE auth_code = $1", [authCode]);
-    if (result.rows.length === 0) return res.status(401).json({ error: "Invalid auth code" });
-
-    res.json({ user: result.rows[0] });
-  } catch (err) {
-    console.error("Auto-login error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 
 

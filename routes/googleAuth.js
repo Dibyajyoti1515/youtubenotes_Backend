@@ -54,7 +54,9 @@ router.post("/google", async (req, res) => {
       "SELECT * FROM users WHERE google_id = $1 OR email = $2",
       [sub, email]
     );
-    console.log("User Query Result:", userRes.rows[0].auth_code);
+    if (userRes.rows.length !== 0) {
+      console.log("User Found:", userRes.rows[0].auth_code);
+    }
 
     if (userRes.rows.length === 0) {
 

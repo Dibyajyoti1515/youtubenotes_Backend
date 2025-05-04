@@ -1,21 +1,3 @@
-// // const express = require("express");
-// // const router = express.Router();
-// // const passport = require("passport");
-// // const cors = require('cors');
-
-
-// // router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-// // const frontendUrl = 'http://localhost:5173';
-
-// // router.get("/google/callback", passport.authenticate("google", { session: false }), (req, res) => {
-// //   // Handle login success
-// //   res.redirect(`${process.env.FRONTEND_URL}/login?auth_code=${req.user.auth_code}`);
-// // });
-
-// // module.exports = router;
-
-// signin.js
 const express = require("express");
 const crypto = require("crypto");
 const axios = require("axios");

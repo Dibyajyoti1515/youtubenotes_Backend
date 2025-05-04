@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: true}))
 require("./config/passport");
 
 // ✅ Proper CORS config
-const allowedOrigins = ["http://localhost:5173", "https://youtubenotemaker.vercel.app"];
+const allowedOrigins = ["http://localhost:5173", "https://youtubenotemaker.vercel.app", "https://www.youtube.com"];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {

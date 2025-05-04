@@ -72,7 +72,7 @@ router.post("/google", async (req, res) => {
         .cookie("auth_code", authCode, {
         httpOnly: true,
         secure: true,       // Only over HTTPS
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
         })
         .json({ user: newUser.rows[0] });
@@ -82,7 +82,7 @@ router.post("/google", async (req, res) => {
         .cookie("auth_code", userRes.rows[0].auth_code, {
         httpOnly: true,
         secure: true,       // Only over HTTPS
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
         })
         .json({ user: userRes.rows[0] });

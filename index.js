@@ -36,6 +36,7 @@ const autoLoginRoutes = require("./routes/auto_login");
 const cookieParser = require("cookie-parser");
 const transcriptRoutes = require("./routes/transcript");
 const handalpdf = require("./routes/handalpdf");
+const logout = require("./routes/logout");
 
 
 
@@ -43,7 +44,7 @@ const port = 8080;
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(bodyParser.json({ limit: '50mb' }));  // Increase the limit to 50 MB (adjust as needed)
+app.use(bodyParser.json({ limit: '50mb' })); 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use("/ytnotes", loginrouts);
 app.use("/ytnotes", signinrouts);
@@ -56,6 +57,7 @@ app.use("/ytnotes", googleLoginRoutes);
 app.use("/ytnotes", autoLoginRoutes);
 app.use("/ytnotes", transcriptRoutes);
 app.use("/ytnotes", handalpdf);
+app.use("/ytnotes", logout);
 
 
 

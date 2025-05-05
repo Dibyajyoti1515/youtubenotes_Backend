@@ -39,13 +39,13 @@ router.post("/google", async (req, res) => {
     if (userRes.rows.length !== 0) {
       console.log("User Found:", userRes.rows[0].auth_code);
     }
-
+    
+    const authCode = crypto.randomBytes(16).toString("hex");
     if (userRes.rows.length === 0) {
 
-      const authCode = crypto.randomBytes(16).toString("hex");
       const newUser = await pool.query(
         `INSERT INTO users (google_id, email, name, auth_code, picture)
-         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+          VALUES ($1, $2, $3, $4, $5) RETURNING *`,
         [sub, email, name, authCode, picture]
       );
       console.log("New User Created:", newUser.rows[0]);
@@ -55,19 +55,27 @@ router.post("/google", async (req, res) => {
         httpOnly: true,
         secure: true,       // Only over HTTPS
         sameSite: "None",
-        maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
+        path: "/",
+        maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
         })
         .json({ user: newUser.rows[0] });
-    }
+    } else {
+      // Update existing user's auth_code
+      const updatedUser = await pool.query(
+        `UPDATE users SET auth_code = $1 WHERE id = $2 RETURNING *`,
+        [authCode, userRes.rows[0].id]
+      );
 
       return res
-        .cookie("auth_code", userRes.rows[0].auth_code, {
-        httpOnly: true,
-        secure: true,       // Only over HTTPS
-        sameSite: "None",
-        maxAge: 60 * 24 * 60 * 60 * 1000 // 7 days
+        .cookie("auth_code", authCode, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+          path: "/",
+          maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
         })
-        .json({ user: userRes.rows[0] });
+        .json({ user: updatedUser.rows[0] });
+    }
 
   } catch (error) {
     console.error("Token Verification Error:", error);

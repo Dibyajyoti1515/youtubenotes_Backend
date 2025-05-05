@@ -3,11 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const supabase = require('../config/supabase');
 const pool = require('../config/db');
-
-// Set up multer for file upload (store in memory for now)
 const upload = multer({ storage: multer.memoryStorage() });
 
-// POST /ytnotes/pdf/upload
 router.post('/pdf/upload', upload.single('file'), async (req, res) => {
   try {
     const { youtube_link, user_id, folder_id, folder_name } = req.body;
@@ -17,7 +14,7 @@ router.post('/pdf/upload', upload.single('file'), async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Upload to Supabase Storage (bucket: "pdfs")
+
     const { data, error } = await supabase
       .storage
       .from('notes')
@@ -31,7 +28,7 @@ router.post('/pdf/upload', upload.single('file'), async (req, res) => {
       return res.status(500).json({ error: 'Upload failed', details: error.message });
     }
 
-    // Get public URL of the uploaded PDF
+    
     const publicUrl = supabase
       .storage
       .from('notes')

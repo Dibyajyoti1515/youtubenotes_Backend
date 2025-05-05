@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require("cors");
 const router = express.Router();
-const path = require("path")
+const path = require("path");
+const bodyParser = require('body-parser');
 //const methodOverride = require('method-override');
 //app.use(methodOverride("_method"));
 const app = express();
-app.use(express.urlencoded({extended: true}))
 require("./config/passport");
 
 // ✅ Proper CORS config
@@ -35,6 +35,7 @@ const googleLoginRoutes = require("./routes/googlelogin");
 const autoLoginRoutes = require("./routes/auto_login");
 const cookieParser = require("cookie-parser");
 const transcriptRoutes = require("./routes/transcript");
+const handalpdf = require("./routes/handalpdf");
 
 
 
@@ -42,6 +43,8 @@ const port = 8080;
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(bodyParser.json({ limit: '50mb' }));  // Increase the limit to 50 MB (adjust as needed)
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use("/ytnotes", loginrouts);
 app.use("/ytnotes", signinrouts);
 app.use("/ytnotes", noterouts);
@@ -52,7 +55,7 @@ app.use("/ytnotes", googleAuthRoutes);
 app.use("/ytnotes", googleLoginRoutes);
 app.use("/ytnotes", autoLoginRoutes);
 app.use("/ytnotes", transcriptRoutes);
-
+app.use("/ytnotes", handalpdf);
 
 
 

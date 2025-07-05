@@ -2,8 +2,10 @@ require('dotenv').config();
 const { Pool } = require("pg");
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "postgresql://postgres:iUUAGNwRyyctjiFulBXiAXZZWBoCZLqH@crossover.proxy.rlwy.net:32115/railway",
-    ssl: { rejectUnauthorized: false },
+    connectionString: process.env.DATABASE_URL,
+    ssl:  {
+        rejectUnauthorized: false
+    }
 });
 
 console.log("➡️ Starting Database Initialization...");

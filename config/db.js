@@ -1,11 +1,12 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 const { Pool } = require("pg");
-require('dotenv').config();
 
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "postgresql://postgres:iUUAGNwRyyctjiFulBXiAXZZWBoCZLqH@crossover.proxy.rlwy.net:32115/railway",
-    ssl: { rejectUnauthorized: false },
+    connectionString: process.env.DATABASE_URL,
+    ssl:  {
+        rejectUnauthorized: false
+    }
 });
 
 pool.connect()
